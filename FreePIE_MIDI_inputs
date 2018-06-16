@@ -1,0 +1,63 @@
+# This is a work in progress and to hell with your warranty!
+# I wanted to use a Korg nanoKontrol2 as a joystick. Why? 'Cause buttons, dials & sliders for cheaper ($80 CDN).
+# This: http://www.korg.com/caen/products/computergear/nanokontrol2/
+# To make this work we need to monitor the midi from the nanoKontrol2 and convert them in real time to a joystick output.
+# We can do that with FreePIE (Programmable Input Emulator): http://andersmalmgren.github.io/FreePIE/
+# FreePIE converts that to an output for a virtual joystick.
+# For this we're using vJoy: http://vjoystick.sourceforge.net/site/
+# vJoy only supports a limited number of axis which we want to use as sliders/dials and other inputs to games.
+# To make this all work, we're going to have to split layout of the nanoKontrol2 into multiple virtual joysticks.
+# 4 dials and 4 sliders on the left as a joystick (with some buttons?), 4 dials and 4 sliders on the right as a second joystick (with some buttons?).
+# A 3rd joystick could be used for all the "transport" buttons (forward, back, play, record, next track, etc).
+
+# Install vJoy.
+# Install FreePIE.
+# Copy and past this code into FreePIE. Save it as a script, then press run. If it all works, you should be able to monitor the joystick outuput with vJoy's monitor program.
+# So far this only a 3rd of the input buttons on the nanoKontrol2. Its late, and I should not be doing this.
+def update():
+   diagnostics.watch(midi[0].data.channel)
+   diagnostics.watch(midi[0].data.status)
+   diagnostics.watch(midi[0].data.buffer[0])
+   diagnostics.watch(midi[0].data.buffer[1])
+   
+
+# Sliders and Dials and buttons on the left side of the nanoKontrol2
+
+#slider_1
+if midi[0].data.buffer[0] == 0:#CC0
+	slide_1 = midi[0].data.buffer[0] == 0 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].x = slide_1;
+#dial_1
+if midi[0].data.buffer[0] == 16:#CC16
+	dial_1 = midi[0].data.buffer[0] == 16 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].rx = dial_1;
+
+#slider_2
+if midi[0].data.buffer[0] == 1:#CC1	
+	slide_2 = midi[0].data.buffer[0] == 1 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].y = slide_2;
+#dial_2
+if midi[0].data.buffer[0] == 17:#CC17
+	dial_2 = midi[0].data.buffer[0] == 17 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].ry = dial_2;	
+
+#slider_3
+if midi[0].data.buffer[0] == 2:#CC2	
+	slide_3 = midi[0].data.buffer[0] == 2 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].z = slide_3;
+#dial_3
+if midi[0].data.buffer[0] == 18:#CC18
+	dial_3 = midi[0].data.buffer[0] == 18 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].rz = dial_3;
+
+#slider_4
+if midi[0].data.buffer[0] == 3:#CC3	
+	slide_4 = midi[0].data.buffer[0] == 3 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].slider = slide_4;
+#dial_4
+if midi[0].data.buffer[0] == 19:#CC19
+	dial_4 = midi[0].data.buffer[0] == 19 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[0].dial = dial_4;
+
+if starting: 
+   midi[0].update += update
