@@ -7,13 +7,16 @@
 # For this we're using vJoy: http://vjoystick.sourceforge.net/site/
 # vJoy only supports a limited number of axis which we want to use as sliders/dials and other inputs to games.
 # To make this all work, we're going to have to split layout of the nanoKontrol2 into multiple virtual joysticks.
+# To make this all work, we're going to have to split layout of the nanoKontrol2 into multiple virtual joysticks.
 # 4 dials and 4 sliders on the left as a joystick (with some buttons?), 4 dials and 4 sliders on the right as a second joystick (with some buttons?).
 # A 3rd joystick could be used for all the "transport" buttons (forward, back, play, record, next track, etc).
+# All of this was coded in a brute force way because I am a noob at this.
 
 # Install vJoy.
 # Install FreePIE.
 # Copy and past this code into FreePIE. Save it as a script, then press run. If it all works, you should be able to monitor the joystick outuput with vJoy's monitor program.
 # So far this only a 3rd of the input buttons on the nanoKontrol2. Its late, and I should not be doing this.
+
 def update():
    diagnostics.watch(midi[0].data.channel)
    diagnostics.watch(midi[0].data.status)
@@ -22,6 +25,8 @@ def update():
    
 
 # Sliders and Dials and buttons on the left side of the nanoKontrol2
+# Change the value after == to the Control Channel (CC#) you want as input from the nanoKontrol2
+
 
 #slider_1
 if midi[0].data.buffer[0] == 0:#CC0
@@ -58,6 +63,44 @@ if midi[0].data.buffer[0] == 3:#CC3
 if midi[0].data.buffer[0] == 19:#CC19
 	dial_4 = midi[0].data.buffer[0] == 19 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
 	vJoy[0].dial = dial_4;
+	
+# Sliders and Dials and buttons on the right side of the nanoKontrol2
+
+#slider_5
+if midi[0].data.buffer[0] == 4:#CC4
+	slide_1 = midi[0].data.buffer[0] == 4 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].x = slide_1;
+#dial_5
+if midi[0].data.buffer[0] == 20:#CC20
+	dial_1 = midi[0].data.buffer[0] == 20 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].rx = dial_1;
+
+#slider_6
+if midi[0].data.buffer[0] == 5:#CC5	
+	slide_2 = midi[0].data.buffer[0] == 5 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].y = slide_2;
+#dial_6
+if midi[0].data.buffer[0] == 21:#CC21
+	dial_2 = midi[0].data.buffer[0] == 21 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].ry = dial_2;	
+
+#slider_7
+if midi[0].data.buffer[0] == 6:#CC6	
+	slide_3 = midi[0].data.buffer[0] == 6 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].z = slide_3;
+#dial_7
+if midi[0].data.buffer[0] == 22:#CC22
+	dial_3 = midi[0].data.buffer[0] == 22 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].rz = dial_3;
+
+#slider_8
+if midi[0].data.buffer[0] == 7:#CC7	
+	slide_4 = midi[0].data.buffer[0] == 7 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].slider = slide_4;
+#dial_8
+if midi[0].data.buffer[0] == 23:#CC23
+	dial_4 = midi[0].data.buffer[0] == 23 and filters.mapRange(midi[0].data.buffer[1], 0, 127, -17873, 17873)
+	vJoy[1].dial = dial_4;
 
 if starting: 
    midi[0].update += update
