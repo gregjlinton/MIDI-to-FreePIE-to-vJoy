@@ -14,10 +14,11 @@
 
 # Install vJoy.
 # Install FreePIE.
-# Copy and past this code into FreePIE. Save it as a script, then press run. If it all works, you should be able to monitor the joystick outuput with vJoy's monitor program.
-# So far this only a 3rd of the input buttons on the nanoKontrol2. Its late, and I should not be doing this.
-
-import time
+# Install Korg Kontrol Editor. https://www.korg.com/us/support/download/software/0/159/1354/
+# Starting with Korg Kontrol Editor. Run it and see if you can connect to the nanoKontrol2. This should bring up a "map" of the nanoKontrol2 and the Control Channels (CC#)'s.
+# Open vJoyConf. Create 2 joysticks. 1 has all the axis enables with 36 buttons. 2 has all the exis enabled with any number of buttons since they won't be used.
+# Open vJoy Monitor.
+# Copy/paste or open this code in/into FreePIE. Save it as a script, then press run. If it all works, you should be able to monitor the joystick outuput with vJoy's monitor program.
 
 def update():
    diagnostics.watch(midi[0].data.channel)
@@ -28,7 +29,8 @@ def update():
 
 # Sliders and Dials and buttons on the left side of the nanoKontrol2
 # Change the value after == to the Control Channel (CC#) you want as input from the nanoKontrol2
-
+# Change the value after vJoy[0]. you want to be the button on your virtual joystick.
+# Change the value after vJoy[ for the virtual joystick you want to use [0] or [1] for example.
 
 #slider_1
 if midi[0].data.buffer[0] == 0:#CC0
