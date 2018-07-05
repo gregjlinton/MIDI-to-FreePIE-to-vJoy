@@ -33,4 +33,9 @@
  
  Copy and past this code into FreePIE. Save it as a script, then press run. If it all works, you should be able to monitor the joystick outuput with vJoy's monitor program.
  
- So far this only a 3rd of the input buttons on the nanoKontrol2. Its late, and I should not be doing this.
+ The horrible, horrible code that's totally inefficient is for a reason. You can comment out the parts you don't want with a #. That way you can disable sliders, buttons or whatever individually within FreePIE without having to learn actually principles of coding. Additionally you can add, subtract or change the mapping of CC# buttons to vJoy buttons directly. There's no fancy loops, counters or time outs. Brute force and ignorance. 
+
+This may require more advanced debouncing. This is beyond the scope of my skills. But it looks okay when staring at the vJoy Monitor output.
+
+Share and enjoy the slider, dial, button goodness.
+
