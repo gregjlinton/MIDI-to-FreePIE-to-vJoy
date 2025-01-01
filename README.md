@@ -39,3 +39,4 @@ This may require more advanced debouncing. This is beyond the scope of my skills
 
 Share and enjoy the slider, dial, button goodness.
 
+I've put this under the MIT Licence so fork/copy/redo this as you see fit.
